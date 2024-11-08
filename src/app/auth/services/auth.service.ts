@@ -1,9 +1,9 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Signal, signal, computed, inject } from '@angular/core';
 import { CredentialsDto } from '../dto/credentials.dto';
 import { LoginResponseDto } from '../dto/login-response.dto';
 import { HttpClient } from '@angular/common/http';
 import { API } from '../../../config/api.config';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,20 +11,54 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
+  // Signaux pour l'état d'authentification et les informations de l'utilisateur
+  private _isAuthenticated = signal<boolean>(false);
+  private _userId = signal<string | null>(null);
+  private _userEmail = signal<string | null>(null);
 
-  constructor() {}
+  // Signaux dérivés avec types explicites
+  isAuthenticated: Signal<boolean> = computed(() => this._isAuthenticated());
+  userId: Signal<string | null> = computed(() => this._userId());
+  userEmail: Signal<string | null> = computed(() => this._userEmail());
 
+  constructor() {
+    this.loadUserState();
+  }
+
+  // Méthode de connexion avec mise à jour des signaux
   login(credentials: CredentialsDto): Observable<LoginResponseDto> {
-    return this.http.post<LoginResponseDto>(API.login, credentials);
+    return this.http.post<LoginResponseDto>(API.login, credentials).pipe(
+      tap((response: LoginResponseDto) => {
+        console.log(credentials);
+
+        localStorage.setItem('token', response.accessToken); // `id` est utilisé comme jeton ici
+        localStorage.setItem('userId', response.id.toString()); // Conversion de number à string pour localStorage
+
+        // Mise à jour des signaux
+        this._isAuthenticated.set(true);
+        this._userId.set(response.username);
+        this._userEmail.set(response.email); // Associe l'email saisi dans CredentialsDto
+      })
+    );
   }
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+  // Chargement de l'état utilisateur depuis le localStorage
+  private loadUserState(): void {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    if (token && userId) {
+      this._isAuthenticated.set(true);
+      this._userId.set(userId); // Conversion de string à number
+    }
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+
+    // Réinitialisation des signaux
+    this._isAuthenticated.set(false);
+    this._userId.set(null);
+    this._userEmail.set(null);
   }
 }

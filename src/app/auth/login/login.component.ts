@@ -5,14 +5,14 @@ import { ROUTES, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { APP_ROUTES } from '../../../config/routes.config';
 import { FormsModule } from '@angular/forms';
-
+import { LoginResponseDto } from '../dto/login-response.dto';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    standalone: true,
-    imports: [FormsModule],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  standalone: true,
+  imports: [FormsModule],
 })
 export class LoginComponent {
   private authService = inject(AuthService);
@@ -24,9 +24,11 @@ export class LoginComponent {
 
   constructor() {}
   login(credentials: CredentialsDto) {
+    console.log(credentials);
+
     this.authService.login(credentials).subscribe({
-      next: (response) => {
-        localStorage.setItem('token', response.id);
+      next: (response: LoginResponseDto) => {
+        localStorage.setItem('token', response.accessToken);
         this.toastr.success(`Bienvenu chez vous :)`);
         this.router.navigate([APP_ROUTES.cv]);
       },

@@ -1,6 +1,11 @@
 export interface LoginResponseDto {
-  id: string;
-  ttl: number;
-  created: Date;
-  userId: number;
+  accessToken: string;
+  refreshToken: string;
+  id: number;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  image: string;
 }

@@ -1,34 +1,37 @@
-import { Component, inject } from '@angular/core';
-import { Todo } from '../model/todo';
+import { Component } from '@angular/core';
 import { TodoService } from '../service/todo.service';
-
+import { TodoStatus } from '../todo.status';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-todo',
-    templateUrl: './todo.component.html',
-    styleUrls: ['./todo.component.css'],
-    providers: [TodoService],
-    standalone: true,
-    imports: [FormsModule],
+  selector: 'app-todo',
+  templateUrl: './todo.component.html',
+  standalone: true,
+  styleUrls: ['./todo.component.css'],
+  imports: [FormsModule, CommonModule],
 })
 export class TodoComponent {
-  private todoService = inject(TodoService);
+  name: string = '';
+  content: string = '';
 
-  todos: Todo[] = [];
-  todo = new Todo();
+  // Accès direct aux signaux dérivés
+  waitingTodos = this.todoService.waitingTodos;
+  inProgressTodos = this.todoService.inProgressTodos;
+  doneTodos = this.todoService.doneTodos;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-  constructor() {
-    this.todos = this.todoService.getTodos();
-  }
+  constructor(public todoService: TodoService) {}
+
   addTodo() {
-    this.todoService.addTodo(this.todo);
-    this.todo = new Todo();
+    if (this.name && this.content) {
+      console.log('appel');
+      this.todoService.addTodo(this.name, this.content);
+      this.name = '';
+      this.content = '';
+    }
   }
 
-  deleteTodo(todo: Todo) {
-    this.todoService.deleteTodo(todo);
+  changeStatus(id: number, newStatus: TodoStatus) {
+    this.todoService.updateTodoStatus(id, newStatus);
   }
 }

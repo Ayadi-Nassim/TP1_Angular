@@ -1,59 +1,44 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { Todo } from '../model/todo';
-import { LoggerService } from '../../services/logger.service';
-
-let n = 1;
+import { TodoStatus } from '../todo.status';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoService {
-  private loggerService = inject(LoggerService);
+  private todos = signal<Todo[]>([]); // Signal pour la liste des tâches
 
-  private todos: Todo[] = [];
-
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-  constructor() {}
-
-  /**
-   * elle retourne la liste des todos
-   *
-   * @returns Todo[]
-   */
-  getTodos(): Todo[] {
-    return this.todos;
+  // Méthodes pour filtrer les tâches par statut
+  get waitingTodos() {
+    return this.todos().filter((todo) => todo.status === 'waiting');
   }
 
-  /**
-   *Elle permet d'ajouter un todo
-   *
-   * @param todo: Todo
-   *
-   */
-  addTodo(todo: Todo): void {
-    this.todos.push(todo);
+  get inProgressTodos() {
+    return this.todos().filter((todo) => todo.status === 'in progress');
   }
 
-  /**
-   * Delete le todo s'il existe
-   *
-   * @param todo: Todo
-   * @returns boolean
-   */
-  deleteTodo(todo: Todo): boolean {
-    const index = this.todos.indexOf(todo);
-    if (index > -1) {
-      this.todos.splice(index, 1);
-      return true;
-    }
-    return false;
+  get doneTodos() {
+    return this.todos().filter((todo) => todo.status === 'done');
   }
 
-  /**
-   * Logger la liste des todos
-   */
-  logTodos() {
-    this.loggerService.logger(this.todos);
+  // Ajouter une nouvelle tâche
+  addTodo(name: string, content: string) {
+    const newTodo: Todo = {
+      id: Date.now(),
+      name,
+      content,
+      status: 'waiting', // Assurez-vous que le statut est "waiting" par défaut
+    };
+    this.todos.update((todos) => [...todos, newTodo]);
+    console.log('Tâche ajoutée:', this.todos());
+  }
+
+  // Changer le statut d'une tâche
+  updateTodoStatus(id: number, newStatus: TodoStatus) {
+    this.todos.update((todos) =>
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, status: newStatus } : todo
+      )
+    );
   }
 }

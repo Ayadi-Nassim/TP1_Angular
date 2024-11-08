@@ -1,0 +1,20 @@
+<div>
+  <h2>Calculateur de Prix TTC</h2>
+
+  <label>
+    Prix unitaire :
+    <input type="number" [(ngModel)]="price" min="0" />
+  </label>
+
+  <label>
+    Quantité :
+    <input type="number" [(ngModel)]="quantity" min="1" />
+  </label>
+
+  <label>
+    TVA (%):
+    <input type="number" [(ngModel)]="tva" min="0" />
+  </label>
+
+  <p><strong>Prix TTC :</strong> {{ totalTTC | number:'1.2-2' }} €</p>
+</div>

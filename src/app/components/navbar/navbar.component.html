@@ -14,12 +14,12 @@
         <!-- Liens pour les utilisateurs authentifiés -->
         <ng-container *ngIf="authService.isAuthenticated()">
           <a class="nav-link" [routerLink]="['cv/add']" routerLinkActive="active text-primary">Add Cv</a>
-          <a class="nav-link" [routerLink]="['todo']" routerLinkActive="active text-primary">Todo</a>
           <a class="nav-link" (click)="authService.logout()">Logout</a>
         </ng-container>
 
         <!-- Lien pour les utilisateurs non authentifiés -->
         <ng-container *ngIf="!authService.isAuthenticated()">
+          <a class="nav-link" [routerLink]="['todo']" routerLinkActive="active text-primary">Todo</a>
           <a class="nav-link" [routerLink]="['login']" routerLinkActive="active text-primary">Login</a>
         </ng-container>
       </div>

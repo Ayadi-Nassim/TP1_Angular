@@ -27,19 +27,36 @@ export class AuthService {
 
   // Méthode de connexion avec mise à jour des signaux
   login(credentials: CredentialsDto): Observable<LoginResponseDto> {
-    return this.http.post<LoginResponseDto>(API.login, credentials).pipe(
-      tap((response: LoginResponseDto) => {
-        console.log(credentials);
+    console.log('Logging in with credentials:', credentials); // Log avant l'appel HTTP
 
-        localStorage.setItem('token', response.accessToken); // `id` est utilisé comme jeton ici
-        localStorage.setItem('userId', response.id.toString()); // Conversion de number à string pour localStorage
+    return this.http
+      .post<LoginResponseDto>(
+        API.login,
+        {
+          username: credentials.username, // Utiliser le nom d'utilisateur
+          password: credentials.password, // Utiliser le mot de passe
+          expiresInMins: 30, // Définir la durée d'expiration du jeton (optionnel)
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .pipe(
+        tap((response: LoginResponseDto) => {
+          console.log('Received response:', response); // Log de la réponse du serveur
 
-        // Mise à jour des signaux
-        this._isAuthenticated.set(true);
-        this._userId.set(response.username);
-        this._userEmail.set(response.email); // Associe l'email saisi dans CredentialsDto
-      })
-    );
+          // Sauvegarde dans le localStorage
+          localStorage.setItem('token', response.accessToken);
+          localStorage.setItem('userId', response.id.toString());
+
+          // Mise à jour des signaux
+          this._isAuthenticated.set(true);
+          this._userId.set(response.username); // Ici vous mettez username au lieu de id
+          this._userEmail.set(response.email);
+        })
+      );
   }
 
   // Chargement de l'état utilisateur depuis le localStorage

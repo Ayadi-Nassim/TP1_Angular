@@ -19,7 +19,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class DetailsComponent implements OnInit {
   authService = inject(AuthService); // Injection du service d'authentification
-  userId = this..userId; // Signal de l'ID utilisateur
+  userId = this.authService.userId; // Signal de l'ID utilisateur
   userEmail = this.authService._userEmail; // Signal de l'email utilisateur
 
   ngOnInit(): void {

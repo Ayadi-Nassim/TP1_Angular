@@ -1,12 +1,8 @@
-<div class="row">
-  <div class="col">
-    <div class="alert alert-warning">
-      {{ date | date : "full" | uppercase }}
-    </div>
-    <app-list [cvs]="cvs"></app-list>
-  </div>
-  <div class="col">
-    <app-cv-card [cv]="selectedCv"></app-cv-card>
+<div *ngIf="cvs$ | async as cvs; else loading">
+  <div *ngFor="let cv of cvs">
+    <app-cv-card [cv]="cv"></app-cv-card>
   </div>
 </div>
-<app-embauche></app-embauche>
+<ng-template #loading>
+  <p>Chargement des CVs...</p>
+</ng-template>

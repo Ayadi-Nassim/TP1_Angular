@@ -18,7 +18,5 @@ export class EmbaucheComponent {
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
-  constructor() {
-    //this.embauchees = this.embaucheService.getEmbauchees();
-  }
+  constructor() {}
 }

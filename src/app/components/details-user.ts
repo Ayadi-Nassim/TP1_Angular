@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-details',
@@ -20,7 +20,7 @@ import { AuthService } from '../services/auth.service';
 export class DetailsComponent implements OnInit {
   authService = inject(AuthService); // Injection du service d'authentification
   userId = this.authService.userId; // Signal de l'ID utilisateur
-  userEmail = this.authService._userEmail; // Signal de l'email utilisateur
+  userEmail = this.authService.userEmail; // Signal de l'email utilisateur
 
   ngOnInit(): void {
     console.log('User ID:', this.userId());

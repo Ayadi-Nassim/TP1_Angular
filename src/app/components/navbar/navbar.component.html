@@ -9,17 +9,17 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link" [routerLink]="['']" routerLinkActive="active text-primary">Home</a>
-        <a class="nav-link" [routerLink]="['cv']" routerLinkActive="active text-primary">Cv</a>
 
         <!-- Liens pour les utilisateurs authentifiés -->
         <ng-container *ngIf="authService.isAuthenticated()">
+          <a class="nav-link" [routerLink]="['cv']" routerLinkActive="active text-primary">Cv</a>
           <a class="nav-link" [routerLink]="['cv/add']" routerLinkActive="active text-primary">Add Cv</a>
-          <a class="nav-link" (click)="authService.logout()">Logout</a>
+          <a class="nav-link" [routerLink]="['todo']" routerLinkActive="active text-primary">Todo</a>
+          <a class="nav-link" (click)="logout()">Logout</a>
         </ng-container>
 
         <!-- Lien pour les utilisateurs non authentifiés -->
         <ng-container *ngIf="!authService.isAuthenticated()">
-          <a class="nav-link" [routerLink]="['todo']" routerLinkActive="active text-primary">Todo</a>
           <a class="nav-link" [routerLink]="['login']" routerLinkActive="active text-primary">Login</a>
         </ng-container>
       </div>

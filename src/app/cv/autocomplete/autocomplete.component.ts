@@ -13,10 +13,10 @@ import { Router } from '@angular/router';
 export class AutocompleteComponent {
   formBuilder = inject(FormBuilder);
   cvService = inject(CvService);
-  router = inject(Router); // Inject Router
+  router = inject(Router); 
 
-  cvs: Cv[] = []; // Liste des CVs retournés par l'API
-  loading = false; // Indicateur de chargement
+  cvs: Cv[] = []; 
+  loading = false; 
 
   get search(): AbstractControl {
     return this.form.get('search')!;

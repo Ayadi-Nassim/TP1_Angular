@@ -1,0 +1,20 @@
+  <div class="master-view">
+    <ol class="list-group">
+      <li
+        *ngFor="let cv of cvs$ | async; let isOdd = odd"
+        [ngClass]="{
+          'list-group-item-primary': isOdd,
+          'list-group-item-secondary': !isOdd
+        }"
+        class="list-group-item"
+        (click)="goToCvDetails(cv)"
+        style="cursor: pointer"
+      >
+        <app-item [cv]="cv"></app-item>
+      </li>
+    </ol>
+  </div>
+
+  <div class="detail-view">
+    <router-outlet></router-outlet>
+  </div>

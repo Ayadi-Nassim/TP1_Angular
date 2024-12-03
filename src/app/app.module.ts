@@ -21,6 +21,7 @@ import { FilsComponent } from './components/fils/fils.component';
 import { AddCvComponent } from './cv/add-cv/add-cv.component';
 import { CvComponent } from './cv/cv/cv.component';
 import { DetailsCvComponent } from './cv/details-cv/details-cv.component';
+import { MasterDetailsCvComponent } from './cv/master-details-cv/master-details-cv.component';
 
 import { NgstyleComponent } from './directives/ngstyle/ngstyle.component';
 import { MiniWordComponent } from './directives/mini-word/mini-word.component';
@@ -52,6 +53,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AutocompleteComponent } from './cv/autocomplete/autocomplete.component';
 import { SliderComponent } from './rxjs/slider/slider.component';
 import { CommonModule, DatePipe, UpperCasePipe } from '@angular/common';
+import { RouterModule } from "@angular/router";
+
 
 @NgModule({
   declarations: [
@@ -91,11 +94,13 @@ import { CommonModule, DatePipe, UpperCasePipe } from '@angular/common';
     RhComponent,
     UserListComponent,
     ProductsComponent,
+    MasterDetailsCvComponent
   ],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     FormsModule,
+    RouterModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     AppRoutingModule,

@@ -1,0 +1,11 @@
+  .master-view {
+    margin-right: 20px;
+  }
+  
+  .detail-view {
+    padding-left: 20px;
+  }
+  
+  .list-group-item {
+    cursor: pointer;
+  }

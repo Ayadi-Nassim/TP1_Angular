@@ -21,6 +21,7 @@ import { FilsComponent } from './components/fils/fils.component';
 import { AddCvComponent } from './cv/add-cv/add-cv.component';
 import { CvComponent } from './cv/cv/cv.component';
 import { DetailsCvComponent } from './cv/details-cv/details-cv.component';
+import { MasterDetailsCvComponent } from './cv/master-details-cv/master-details-cv.component';
 
 import { NgstyleComponent } from './directives/ngstyle/ngstyle.component';
 import { MiniWordComponent } from './directives/mini-word/mini-word.component';
@@ -51,8 +52,9 @@ import { ProductsComponent } from './products/products.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AutocompleteComponent } from './cv/autocomplete/autocomplete.component';
 import { SliderComponent } from './rxjs/slider/slider.component';
-import { RainbowWritingDirective } from './rainbow-writing.directive';
-import { TtcComponent } from './components/ttc/ttc.component';
+import { CommonModule, DatePipe, UpperCasePipe } from '@angular/common';
+import { RouterModule } from "@angular/router";
+
 
 @NgModule({
   declarations: [
@@ -92,13 +94,13 @@ import { TtcComponent } from './components/ttc/ttc.component';
     RhComponent,
     UserListComponent,
     ProductsComponent,
-    RainbowWritingDirective,
-    TtcComponent,
+    MasterDetailsCvComponent
   ],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     FormsModule,
+    RouterModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     AppRoutingModule,
@@ -109,6 +111,15 @@ import { TtcComponent } from './components/ttc/ttc.component';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+  ],
+  exports: [
+    DefaultImagePipe,
+    ListComponent,
+    CvCardComponent,
+    EmbaucheComponent,
+    UpperCasePipe,
+    DatePipe,
+    CommonModule,
   ],
   providers: [
     AuthInterceptorProvider,

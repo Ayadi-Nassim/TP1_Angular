@@ -5,7 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { APP_ROUTES } from '../../../config/routes.config';
 import { AuthService } from '../../auth/services/auth.service';
-import { Observable, of,catchError, switchMap } from 'rxjs';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-details-cv',
@@ -13,27 +14,26 @@ import { Observable, of,catchError, switchMap } from 'rxjs';
   styleUrls: ['./details-cv.component.css'],
 })
 export class DetailsCvComponent implements OnInit {
-  cv$: Observable<Cv | null> = of(null);
+  cv: Cv | null = null;
 
   constructor(
     private cvService: CvService,
-    private router: Router,
     private activatedRoute: ActivatedRoute,
+    private router: Router, 
     private toastr: ToastrService,
     public authService: AuthService
   ) {}
 
-  ngOnInit() {
-    this.cv$ = this.activatedRoute.params.pipe(
-      switchMap(params => {
-        const id = +params['id'];
-        return this.cvService.getCvById(id);
-      }),
-      catchError(() => {
-        this.router.navigate([APP_ROUTES.cv]);
-        return of(null); 
-      })
-    );
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe({
+      next: (data) => {
+        this.cv = data['cv'];
+      },
+      error: () => {
+        this.toastr.error('Failed to load CV details.');
+        this.router.navigate([APP_ROUTES.cv]); 
+      },
+    });
   }
 
   deleteCv(cv: Cv) {
@@ -41,12 +41,12 @@ export class DetailsCvComponent implements OnInit {
       this.toastr.error(
           `Problème avec le serveur veuillez contacter l'admin`
         );
-        return of(null);
+          return of(null);
     })).subscribe({
-      next: () => {
-        this.toastr.success(`${cv.name} supprimé avec succès`);
-        this.router.navigate([APP_ROUTES.cv]);
-      },
-    });
+        next: () => {
+          this.toastr.success(`${cv.name} supprimé avec succès`);
+          this.router.navigate([APP_ROUTES.cv]);
+        },
+      });
   }
 }

@@ -14,6 +14,8 @@ import { DetailsCvComponent } from './cv/details-cv/details-cv.component';
 import { RhComponent } from './optimizationPattern/rh/rh.component';
 import { ProductsComponent } from './products/products.component';
 import { MasterDetailsCvComponent } from './cv/master-details-cv/master-details-cv.component';
+import { CvResolver } from './cv/resolvers/cv-resolver';
+import { CvListResolver } from './cv/resolvers/cv-list-resolvers';
 
 const routes: Route[] = [
   { path: 'login', component: LoginComponent },
@@ -22,16 +24,22 @@ const routes: Route[] = [
   {
     path: 'cv',
     component: CvComponent,
+    resolve: {cvList: CvListResolver}
   },
   { path: 'cv/add', component: AddCvComponent, canActivate: [AuthGuard] },
-  { path: 'cv/:id', component: DetailsCvComponent },
+  { path: 'cv/:id',
+   component: DetailsCvComponent,
+   resolve: {cv: CvResolver} 
+  },
   {
     path: 'master-details',
     component: MasterDetailsCvComponent,
+    resolve: {cvList: CvListResolver},
     children: [
       {
         path: ':id',
         component: DetailsCvComponent,
+        resolve: {cv: CvResolver}
       },
     ],
   },

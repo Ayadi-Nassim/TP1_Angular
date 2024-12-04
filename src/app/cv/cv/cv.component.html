@@ -1,33 +1,15 @@
-<div>
-  <!-- Tabs Navigation -->
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" data-bs-toggle="tab" href="#juniors">Juniors</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="tab" href="#seniors">Seniors</a>
-    </li>
-  </ul>
+<div class="row">
+  <div class="col-6">
+    <app-list
+      [cvs]="cvs"
+    ></app-list>
+  </div>
 
-  <!-- Tabs Content -->
-  <div class="tab-content">
-    <!-- Juniors Tab -->
-    <div id="juniors" class="tab-pane fade show active">
-      <div *ngIf="juniors$ | async as juniors; else loading">
-        <app-list [cvs]="juniors"></app-list>
-      </div>
-    </div>
-
-    <!-- Seniors Tab -->
-    <div id="seniors" class="tab-pane fade">
-      <div *ngIf="seniors$ | async as seniors; else loading">
-        <app-list [cvs]="seniors"></app-list>
-      </div>
-    </div>
+  <div class="col-6">
+    <ng-container *ngIf="selectedCv$ | async as selectedCv">
+      <app-cv-card [cv]="selectedCv"></app-cv-card>
+    </ng-container>
   </div>
 </div>
 
-<!-- Loading Template -->
-<ng-template #loading>
-  <p>Chargement des CVs...</p>
-</ng-template>
+<app-embauche></app-embauche>

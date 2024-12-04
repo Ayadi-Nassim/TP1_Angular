@@ -1,7 +1,8 @@
+<div class="master-details-container">
   <div class="master-view">
     <ol class="list-group">
       <li
-        *ngFor="let cv of cvs$ | async; let isOdd = odd"
+        *ngFor="let cv of cvs; let isOdd = odd"
         [ngClass]="{
           'list-group-item-primary': isOdd,
           'list-group-item-secondary': !isOdd
@@ -18,3 +19,4 @@
   <div class="detail-view">
     <router-outlet></router-outlet>
   </div>
+</div>

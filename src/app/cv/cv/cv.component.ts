@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { Cv } from '../model/cv';
 import { LoggerService } from '../../services/logger.service';
 import { ToastrService } from 'ngx-toastr';
 import { CvService } from '../services/cv.service';
@@ -15,9 +14,7 @@ export class CvComponent {
   private toastr = inject(ToastrService);
   private cvService = inject(CvService);
 
-  // Fetch CVs once and split into juniors and seniors
-  juniors$ = this.cvService.getCvs().pipe(
-    map((cvs) => cvs.filter((cv) => cv.age < 40)),
+  private cvs$ = this.cvService.getCvs().pipe(
     catchError(() => {
       this.toastr.error(`
         Attention!! Les données sont fictives, problème avec le serveur.
@@ -26,24 +23,17 @@ export class CvComponent {
     })
   );
 
-  seniors$ = this.cvService.getCvs().pipe(
-    map((cvs) => cvs.filter((cv) => cv.age >= 40)),
-    catchError(() => {
-      this.toastr.error(`
-        Attention!! Les données sont fictives, problème avec le serveur.
-        Veuillez contacter l'admin.`);
-      return EMPTY;
-    })
+  juniors$ = this.cvs$.pipe(
+    map((cvs) => cvs.filter((cv) => cv.age < 40))
   );
 
-  selectedCv: Cv | null = null;
+  seniors$ = this.cvs$.pipe(
+    map((cvs) => cvs.filter((cv) => cv.age >= 40))
+  );
 
   constructor() {
-    // Log and notify when the component is initialized
     this.logger.logger('je suis le cvComponent');
     this.toastr.info('Bienvenu dans notre CvTech');
-
-    // Subscribe to the selected CV observable
-    this.cvService.selectCv$.subscribe((cv) => (this.selectedCv = cv));
   }
 }
+

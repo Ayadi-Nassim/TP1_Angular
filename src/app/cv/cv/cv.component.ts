@@ -32,6 +32,7 @@ export class CvComponent {
   );
 
   constructor() {
+    // Log and notify when the component is initialized
     this.logger.logger('je suis le cvComponent');
     this.toastr.info('Bienvenu dans notre CvTech');
   }

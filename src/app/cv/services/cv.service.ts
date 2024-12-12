@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { Cv } from "../model/cv";
-import { Observable, Subject } from "rxjs";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { API } from "../../../config/api.config";
+import { Injectable } from '@angular/core';
+import { Cv } from '../model/cv';
+import { Observable, Subject, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { API } from '../../../config/api.config';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class CvService {
   private cvs: Cv[] = [];
@@ -19,8 +19,8 @@ export class CvService {
   selectCv$ = this.#selectCvSuject$.asObservable();
   constructor(private http: HttpClient) {
     this.cvs = [
-      new Cv(1, "aymen", "sellaouti", "teacher", "as.jpg", "1234", 40),
-      new Cv(2, "skander", "sellaouti", "enfant", "       ", "1234", 4),
+      new Cv(1, 'aymen', 'sellaouti', 'teacher', 'as.jpg', '1234', 40),
+      new Cv(2, 'skander', 'sellaouti', 'enfant', '       ', '1234', 4),
     ];
   }
 
@@ -102,15 +102,19 @@ export class CvService {
   }
 
   /**
-   * Recherche les cvs dont le name contient la chaine name passée en paramètre
-   * @param name : string
-   * @returns cvs Cv[]
+   * Recherche les CVs dont le champ "name" contient la chaîne passée en paramètre.
+   * @param name - Le nom ou une partie du nom à rechercher (string).
+   * @returns Observable<Cv[]> - Un observable contenant la liste des CVs correspondants.
    */
-  selectByName(name: string) {
+  selectByName(name: string): Observable<Cv[]> {
+    if (!name.trim()) {
+      return of([]); // Observable that emits an empty array
+    }
     const search = `{"where":{"name":{"like":"%${name}%"}}}`;
-    const params = new HttpParams().set("filter", search);
-    return this.http.get<any>(API.cv, { params });
+    const params = new HttpParams().set('filter', search);
+    return this.http.get<Cv[]>(API.cv, { params });
   }
+
   /**
    * Recherche les cvs dont la valeur est égale à la chaine passée en paramètre
    * @param property : string, la propriété sur laquelle on va requeter
@@ -119,7 +123,7 @@ export class CvService {
    */
   selectByProperty(property: string, value: string) {
     const search = `{"where":{"${property}":"${value}"}}`;
-    const params = new HttpParams().set("filter", search);
+    const params = new HttpParams().set('filter', search);
     return this.http.get<Cv[]>(API.cv, { params });
   }
 

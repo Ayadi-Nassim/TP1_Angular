@@ -22,7 +22,6 @@ const routes: Route[] = [
   { path: 'products', component: ProductsComponent },
   {
     path: 'cv',
-    component: CvComponent,
     loadChildren: () => import('./cv/cv.module').then((m) => m.CvModule),
     data: { preload: true },
   },

@@ -17,14 +17,14 @@ import { MasterDetailsCvComponent } from './master-details-cv/master-details-cv.
 
 const routes: Routes = [
   { path: '', component: CvComponent },
-  { path: 'add', component: AddCvComponent, canActivate: [AuthGuard] },
+  { path: 'add', component: AddCvComponent },
   { path: ':id', component: DetailsCvComponent },
 ];
 
 @NgModule({
   declarations: [
     DefaultImagePipe,
-    AddCvComponent,
+    AddCvComponent, 
     CvComponent,
     DetailsCvComponent,
     ListComponent,

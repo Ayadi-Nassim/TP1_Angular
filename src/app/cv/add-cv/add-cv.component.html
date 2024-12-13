@@ -10,16 +10,21 @@
   </div>
   Firstname:
   <input type="text" class="form-control" formControlName="firstname" /> Age:
-  <input type="text" class="form-control" formControlName="age" /> Cin:
+  <input type="text" class="form-control" formControlName="age" /> 
+  Cin:
   <input type="text" class="form-control" formControlName="cin" />
-  <div
-    *ngIf="
-      form.errors && form.errors['cinFirstCars'] && cin?.touched && age?.touched
-    "
-    class="alert alert-danger"
-  >
-    Cette Cin est invalide
+  <div *ngIf="form.get('cin')?.errors && form.get('cin')?.touched">
+  <div *ngIf="form.get('cin')?.errors?.['required']" class="alert alert-danger">
+    CIN is required
   </div>
+  <div *ngIf="form.get('cin')?.errors?.['cinTaken']" class="alert alert-danger">
+    CIN is already taken
+  </div>
+  <div *ngIf="form.get('cin')?.errors?.['pattern']" class="alert alert-danger">
+    CIN format is invalid
+  </div>
+  </div>
+
   Job: 
   <input type="text" class="form-control" formControlName="job" /> 
   Path:

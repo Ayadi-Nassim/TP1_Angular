@@ -1,14 +1,10 @@
-import { Component } from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  Validators,
-} from "@angular/forms";
-import { CvService } from "../services/cv.service";
-import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
-import { APP_ROUTES } from "src/config/routes.config";
-import { Cv } from "../model/cv";
+import { Component } from '@angular/core';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { CvService } from '../services/cv.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { APP_ROUTES } from 'src/config/routes.config';
+import { Cv } from '../model/cv';
 import { CONSTANTES } from 'src/config/const.config';
 
 @Component({
@@ -65,8 +61,10 @@ export class AddCvComponent {
   }
 
   addCv() {
+    console.log('add cv');
     this.cvService.addCv(this.form.value as Cv).subscribe({
       next: (cv) => {
+        console.log('adding cv with id', cv.id);
         this.router.navigate([APP_ROUTES.cv]);
         this.toastr.success(`Le cv ${cv.firstname} ${cv.name}`);
       },
@@ -77,7 +75,6 @@ export class AddCvComponent {
       },
     });
   }
-
   get name(): AbstractControl {
     return this.form.get('name')!;
   }

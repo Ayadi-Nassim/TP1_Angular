@@ -15,7 +15,6 @@ const routes: Route[] = [
   { path: 'login', component: LoginComponent },
   { path: 'rh', component: RhComponent },
   { path: 'products', component: ProductsComponent },
-  { path: 'products', component: ProductsComponent },
   {
     path: 'cv',
     loadChildren: () => import('./cv/cv.module').then((m) => m.CvModule),
@@ -35,11 +34,6 @@ const routes: Route[] = [
     path: '',
     component: FrontComponent,
     children: [
-      {
-        path: 'todo',
-        loadChildren: () =>
-          import('./todo/todo.module').then((m) => m.TodoModule),
-      },
       {
         path: 'todo',
         loadChildren: () =>

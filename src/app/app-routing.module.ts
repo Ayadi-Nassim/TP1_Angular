@@ -22,12 +22,10 @@ const routes: Route[] = [
   { path: 'products', component: ProductsComponent },
   {
     path: 'cv',
+    component: CvComponent,
     loadChildren: () => import('./cv/cv.module').then((m) => m.CvModule),
     data: { preload: true },
-    component: CvComponent,
   },
-  { path: 'cv/add', component: AddCvComponent, canActivate: [AuthGuard] },
-  { path: 'cv/:id', component: DetailsCvComponent },
   {
     path: 'master-details',
     component: MasterDetailsCvComponent,
@@ -42,30 +40,20 @@ const routes: Route[] = [
     path: '',
     component: FrontComponent,
     children: [
-      { path: 'todo', component: TodoComponent,
+      {
+        path: 'todo',
         loadChildren: () =>
           import('./todo/todo.module').then((m) => m.TodoModule),
-       },
-      { path: 'word', component: MiniWordComponent },
+      },
     ],
   },
   {
-    path: 'admin',
+    path: "admin",
     component: AdminComponent,
-    children: [{ path: 'color', component: ColorComponent }],
+    children: [{ path: "color", component: ColorComponent }],
   },
   { path: '**', component: NF404Component },
 ];
-
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      preloadingStrategy: CustomPreloadingStrategy,
-    }),
-  ],
-  exports: [RouterModule],
-  providers: [CustomPreloadingStrategy],
-})
 
 @NgModule({
   imports: [

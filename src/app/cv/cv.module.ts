@@ -13,6 +13,7 @@ import { EmbaucheComponent } from './embauche/embauche.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultImagePipe } from './pipes/default-image.pipe';
+import { MasterDetailsCvComponent } from './master-details-cv/master-details-cv.component';
 
 const routes: Routes = [
   { path: '', component: CvComponent },
@@ -32,6 +33,7 @@ const routes: Routes = [
     AutocompleteComponent,
     EmbaucheComponent,
     CardProfilComponent,
+    MasterDetailsCvComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, 
     RouterModule.forChild(routes)],

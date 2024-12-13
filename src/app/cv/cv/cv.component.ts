@@ -3,6 +3,8 @@ import { LoggerService } from '../../services/logger.service';
 import { ToastrService } from 'ngx-toastr';
 import { CvService } from '../services/cv.service';
 import { catchError, EMPTY, map } from 'rxjs';
+import { Cv } from '../model/cv';
+
 
 @Component({
   selector: 'app-cv',
@@ -30,6 +32,8 @@ export class CvComponent {
   seniors$ = this.cvs$.pipe(
     map((cvs) => cvs.filter((cv) => cv.age >= 40))
   );
+
+  selectedCv: Cv | null = null;
 
   constructor() {
     // Log and notify when the component is initialized

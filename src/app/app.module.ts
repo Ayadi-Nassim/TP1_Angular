@@ -17,7 +17,6 @@ import { TwoComponent } from './components/two/two.component';
 import { PereComponent } from './components/pere/pere.component';
 import { FilsComponent } from './components/fils/fils.component';
 
-import { MasterDetailsCvComponent } from './cv/master-details-cv/master-details-cv.component';
 
 import { NgstyleComponent } from './directives/ngstyle/ngstyle.component';
 import { MiniWordComponent } from './directives/mini-word/mini-word.component';
@@ -42,10 +41,9 @@ import { ProductsComponent } from './products/products.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { SliderComponent } from './rxjs/slider/slider.component';
 import { CommonModule, DatePipe, UpperCasePipe } from '@angular/common';
-import { RouterModule } from "@angular/router";
-
 import { CvModule } from './cv/cv.module';
 import { TodoModule } from './todo/todo.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [

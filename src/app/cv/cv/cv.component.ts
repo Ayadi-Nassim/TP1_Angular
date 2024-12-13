@@ -15,9 +15,7 @@ export class CvComponent {
   private toastr = inject(ToastrService);
   private cvService = inject(CvService);
 
-  // Fetch CVs once and split into juniors and seniors
-  juniors$ = this.cvService.getCvs().pipe(
-    map((cvs) => cvs.filter((cv) => cv.age < 40)),
+  private cvs$ = this.cvService.getCvs().pipe(
     catchError(() => {
       this.toastr.error(`
         Attention!! Les données sont fictives, problème avec le serveur.
@@ -26,14 +24,12 @@ export class CvComponent {
     })
   );
 
-  seniors$ = this.cvService.getCvs().pipe(
-    map((cvs) => cvs.filter((cv) => cv.age >= 40)),
-    catchError(() => {
-      this.toastr.error(`
-        Attention!! Les données sont fictives, problème avec le serveur.
-        Veuillez contacter l'admin.`);
-      return EMPTY;
-    })
+  juniors$ = this.cvs$.pipe(
+    map((cvs) => cvs.filter((cv) => cv.age < 40))
+  );
+
+  seniors$ = this.cvs$.pipe(
+    map((cvs) => cvs.filter((cv) => cv.age >= 40))
   );
 
   selectedCv: Cv | null = null;

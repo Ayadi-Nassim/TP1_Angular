@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Cv } from '../model/cv';
 import { LoggerService } from '../../services/logger.service';
 import { ToastrService } from 'ngx-toastr';
 import { CvService } from '../services/cv.service';
 import { catchError, EMPTY, map } from 'rxjs';
+import { Cv } from '../model/cv';
+
 
 @Component({
   selector: 'app-cv',
@@ -38,8 +39,6 @@ export class CvComponent {
     // Log and notify when the component is initialized
     this.logger.logger('je suis le cvComponent');
     this.toastr.info('Bienvenu dans notre CvTech');
-
-    // Subscribe to the selected CV observable
-    this.cvService.selectCv$.subscribe((cv) => (this.selectedCv = cv));
   }
 }
+

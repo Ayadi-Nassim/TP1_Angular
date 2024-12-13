@@ -15,6 +15,7 @@ const routes: Route[] = [
   { path: 'login', component: LoginComponent },
   { path: 'rh', component: RhComponent },
   { path: 'products', component: ProductsComponent },
+  { path: 'products', component: ProductsComponent },
   {
     path: 'cv',
     loadChildren: () => import('./cv/cv.module').then((m) => m.CvModule),
@@ -39,12 +40,17 @@ const routes: Route[] = [
         loadChildren: () =>
           import('./todo/todo.module').then((m) => m.TodoModule),
       },
+      {
+        path: 'todo',
+        loadChildren: () =>
+          import('./todo/todo.module').then((m) => m.TodoModule),
+      },
     ],
   },
   {
-    path: 'admin',
+    path: "admin",
     component: AdminComponent,
-    children: [{ path: 'color', component: ColorComponent }],
+    children: [{ path: "color", component: ColorComponent }],
   },
   { path: '**', component: NF404Component },
 ];

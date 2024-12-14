@@ -1,5 +1,6 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {User} from "../users.service";
+import Memoize from 'memo-decorator';
 
 export const fibonnaci = (n: number): number => {
   if (n==1 || n==0) {
@@ -11,7 +12,9 @@ export const fibonnaci = (n: number): number => {
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  styleUrls: ['./user-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class UserListComponent {
   @Input() usersCluster: string = '';
@@ -22,6 +25,8 @@ export class UserListComponent {
     this.add.emit(this.userFullName);
     this.userFullName = '';
   }
+  
+  @Memoize()
   fibo(n: number): number {
     const fib = fibonnaci(n);
     console.log({n, fib});

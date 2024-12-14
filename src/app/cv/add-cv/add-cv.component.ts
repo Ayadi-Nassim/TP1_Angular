@@ -52,7 +52,7 @@ export class AddCvComponent {
 
     const savedData = localStorage.getItem(CONSTANTES.ADD_CV_DATA_KEY);
     if (savedData) {
-      this.form.patchValue(JSON.parse(savedData));
+      this.form.patchValue(JSON.parse(savedData)); //populates form fields
     }
 
     this.form.valueChanges.subscribe((data) => {

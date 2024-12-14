@@ -17,7 +17,7 @@ import { MasterDetailsCvComponent } from './master-details-cv/master-details-cv.
 
 const routes: Routes = [
   { path: '', component: CvComponent },
-  { path: 'add', component: AddCvComponent },
+  { path: 'add', component: AddCvComponent, canActivate: [AuthGuard] },
   { path: ':id', component: DetailsCvComponent },
 ];
 

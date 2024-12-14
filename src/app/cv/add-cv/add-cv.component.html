@@ -33,5 +33,11 @@
   <button [disabled]="form.invalid" class="btn btn-primary" (click)="addCv()">
     add cv
   </button>
+  <div
+  *ngIf="form.hasError('ageCinProblem') && (form.touched || form.dirty)"
+  class="cross-validation-error-message alert alert-danger"
+>
+  Age and CIN do not match
+</div>
 </form>
 {{ form.errors | json }} 

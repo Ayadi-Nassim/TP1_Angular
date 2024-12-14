@@ -21,16 +21,6 @@ const routes: Route[] = [
     data: { preload: true },
   },
   {
-    path: 'master-details',
-    component: MasterDetailsCvComponent,
-    children: [
-      {
-        path: ':id',
-        component: DetailsCvComponent,
-      },
-    ],
-  },
-  {
     path: '',
     component: FrontComponent,
     children: [
@@ -38,6 +28,16 @@ const routes: Route[] = [
         path: 'todo',
         loadChildren: () =>
           import('./todo/todo.module').then((m) => m.TodoModule),
+      },
+    ],
+  },
+  {
+    path: 'master-details',
+    component: MasterDetailsCvComponent,
+    children: [
+      {
+        path: ':id',
+        component: DetailsCvComponent,
       },
     ],
   },

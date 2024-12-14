@@ -34,7 +34,7 @@ export class AutocompleteComponent {
           this.cvService
             .selectByName(name)
             .pipe(tap(() => (this.loading = false)))
-        ) //switchmap annule les requetes en cours et lance le selectbyname
+        ) //switchmap switches to a new observable when the value change
       )
       .subscribe({
         next: (cvs) => {
